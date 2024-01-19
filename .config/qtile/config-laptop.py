@@ -7,7 +7,7 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
 window = "mod4"
-terminal = "gnome-terminal --hide-menubar"
+terminal = "alacritty"
 alt="mod1"
 enter="Return"
 
@@ -96,7 +96,7 @@ layouts = [
 
 widget_defaults = dict(
     font="Hack Nerd Font Mono",
-    fontsize=12,
+    fontsize=10,
     padding=0,
 )
 extension_defaults = widget_defaults.copy()
