@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openbox_menu xmlns="http://openbox.org/3.4/menu">
+
+<menu id="root-menu" label="Openbox 3">
+  <separator label="System" />
+  
+  <item label="Configuracion de Openbox">
+    <action name="Execute">
+      <command>obconf</command>
+      <startupnotify><enabled>yes</enabled></startupnotify>
+    </action>
+  </item>
+  <separator/>
+
+  <item label="Monitores">
+    <action name="Execute">
+      <command>arandr</command>
+    </action>
+  </item>
+  
+  <separator/>
+  <item label="Recargar WM">
+    <action name="Reconfigure" />
+  </item>
+
+  <separator />
+  <item label="Cerrar sesion">
+    <action name="Exit">
+      <prompt>yes</prompt>
+    </action>
+  </item>
+  <separator />
+  <item label="Apagar">
+    <action name="Execute">
+      <command>shutdown now</command>
+    </action>
+  </item>
+
+  <separator label="Terminales" />
+
+  <item label="Xterm">
+    <action name="Execute">
+      <command>xterm</command>
+    </action>
+  </item>
+
+  <item label="Alacritty">
+    <action name="Execute">
+      <command>alacritty</command>
+    </action>
+  </item>
+  <separator label="Navegadores" />
+  <item label="Firefox">
+    <action name="Execute">
+      <command>firefox</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+        <wmclass>Firefox</wmclass>
+      </startupnotify>
+    </action>
+  </item>
+  
+  <item label="Brave">
+    <action name="Execute">
+      <command>brave</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+        <wmclass>Brave</wmclass>
+      </startupnotify>
+    </action>
+  </item>
+<separator label="Oficina"/>
+<item label="Spreadsheet">
+    <action name="Execute">
+      <command>et</command>
+    </action>
+  </item>
+  
+  <item label="Presentation">
+    <action name="Execute">
+      <command>wpp</command>
+    </action>
+  </item>
+
+  <item label="Writer">
+    <action name="Execute">
+      <command>wps</command>
+    </action>
+  </item>
+<separator label="Graficos"/>
+  <item label="Gimp">
+    <action name="Execute">
+      <command>gimp</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
+  <item label="Dia Diagram Editor">
+    <action name="Execute">
+      <command>dia</command>
+      <startupnotify>|
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
+  <separator label="Desarrollo"/>
+  <item label="VS code">
+    <action name="Execute">
+      <command>code</command>
+    </action>
+  </item>
+
+  <item label="DBeaver">
+    <action name="Execute">
+      <command>dbeaver</command>
+    </action>
+  </item>
+  
+</>
+</openbox_menu>

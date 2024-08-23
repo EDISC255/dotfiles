@@ -4,12 +4,12 @@ from libqtile import hook
 from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
-from libqtile.utils import guess_terminal
 
 window = "mod4"
 terminal = "alacritty"
-alt="mod1"
-enter="Return"
+
+alt = "mod1"
+enter = "Return"
 
 keys = [
     # navegacion entre ventanas
@@ -29,32 +29,44 @@ keys = [
     Key([window, "control"], "down", lazy.layout.grow_down(), desc="Grow window down"),
     Key([window, "control"], "up", lazy.layout.grow_up(), desc="Grow window up"),
     Key([window], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-
+    
     Key(
         [window, "shift"],
         enter,
         lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack",
     ),
-    # programas
+
+    # QTILE WM
     Key([window], enter, lazy.spawn(terminal), desc="Launch terminal"),
-    Key([window], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([alt], "F4", lazy.window.kill(), desc="Kill focused window"),
     Key([window, "control"], "r", lazy.reload_config(), desc="Reload the config"),
+    Key([window], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+    Key([window,"shift"], "Tab", lazy.prev_layout(), desc="Toggle between layouts"),
+    Key([window], "end", lazy.next_layout(), desc="Toggle between layouts"),
+    Key([window], "home", lazy.prev_layout(), desc="Toggle between layouts"),
     Key([alt, "control"], "delete", lazy.shutdown(), desc="Shutdown Qtile"),
-# lazy.shutdown()    
-    Key([window], "r", lazy.spawn("rofi -show drun"), desc="Spawn a command using a prompt widget"),
+        
+    # lazy.shutdown()
+    
+    # programas
+    Key([window], "r", lazy.spawn("rofi -show drun"),),
+    Key([window], "w", lazy.spawn("rofi -show window"),),
     Key([window], "p", lazy.spawn("arandr"),),
-    Key([window], "b", lazy.spawn("firefox"),),
+    Key([window], "b", lazy.spawn("brave"),),
     Key([window], "c", lazy.spawn("code"),),
-    Key([window], "e", lazy.spawn("thunar"),),
+    Key([window, "control"], enter, lazy.spawn("alacritty -e tmux")),
+    
     #controles
-
-    #Key([], "XF86AudioMute", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle"),),
-    #Key([], "XF86AudioRiseVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%"),),
-    #Key([], "XF86AudioLowerVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%"),),
-    #Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl set 10%+"),),
-    #Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 10%-"),),
+    Key([], "XF86AudioMute", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle"),),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%"),),
+    Key([], "XF86AudioLowerVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%"),),
+    Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl set 10%+"),),
+    Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 10%-"),),
+    Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause"),),
+    Key([], "XF86AudioPause", lazy.spawn("playerctl play-pause"),),
+    Key([], "XF86AudioNext", lazy.spawn("playerctl next"),),
+    Key([], "XF86AudioPrev", lazy.spawn("playerctl previous"),),
 ]
 # listado de iconos
 # 2.- nf-oct-terminal
@@ -78,20 +90,21 @@ for i, group in enumerate(groups):
             #     desc="move focused window to group {}".format(i.name)),
         ]
     )
-
+layout_style={"margin": 2,"border_focus":["#3c3c3c", "#9c9c9c"], "border_width":2}
 layouts = [
-    layout.Max(),
-    layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
+    layout.Max(**layout_style),
+    layout.Columns(**layout_style),
+    layout.MonadTall(**layout_style),
+    #layout.Tile(**layout_style),
+    #layout.Matrix(**layout_style),
+
     # layout.Stack(num_stacks=2),
     # layout.Bsp(),
-    layout.Matrix(),
-    layout.MonadTall(),
     # layout.MonadWide(),
     # layout.RatioTile(),
-    # layout.Tile(),
     # layout.TreeTab(),
     # layout.VerticalTile(),
-    # layout.Zoomy(),
+    #layout.Zoomy(),
 ]
 
 widget_defaults = dict(
@@ -109,7 +122,7 @@ screens = [
                 widget.GroupBox(
                     active='#ffffff',
                     disable_drag=True,
-                    fontsize=17,
+                    fontsize=12,
                     highlight_method='line'
                 ),
                 widget.Prompt(),
@@ -122,25 +135,37 @@ screens = [
                 ),
                 # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
                 # widget.StatusNotifier(),
-                widget.Systray(),
+                widget.TextBox(
+                    "",foreground='#383838', fontsize=20
+                ),
                 widget.CPU(
                     background='#383838'
+                ),
+                widget.TextBox(
+                    "",foreground='#383838', fontsize=20
+                ),
+                widget.Net(
+                    background='#383838'
+                ),
+
+                widget.TextBox(
+                    "",foreground='#383838', fontsize=20
                 ),
                 widget.Memory(
                     background='#383838'
                 ),
-                widget.Battery(
-                    background='#383838'
-                ),
-                widget.BatteryIcon(
-                    background='#383838'
-                ),
-                widget.PulseVolume(
-                    background='#383838'
+                widget.TextBox(
+                    "",foreground='#383838', fontsize=20
                 ),
                 widget.Clock(
-                    format="%d/%m/%Y %a %I:%M %p",
+                    format="%d/%m/%Y %I:%M %p",
                     background='#383838',
+                ),
+                widget.TextBox(
+                    "",foreground='#383838', fontsize=20
+                ),
+                widget.Systray(
+                    background='#383838'
                 ),
                 
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
@@ -149,8 +174,8 @@ screens = [
             background="#1f1f1f"
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
         ),
-        wallpaper = '~/.config/qtile/wallpaper.png',
-        wallpaper_mode='stretch',
+#        wallpaper = '~/.config/qtile/wallpaper.png',
+#       wallpaper_mode='stretch',
     ),
 ]
 

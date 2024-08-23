@@ -6,3 +6,8 @@ QTILE
 
 ![](./screenshots/qtile.png)
 
+OPENBOX
+
+[OPENBOX](./.config/openbox/)
+
+![](./screenshots/openbox.png)
