@@ -1,9 +1,8 @@
 import subprocess
 from os import path
 import json
-import random
 from libqtile import hook
-from libqtile import bar, layout, widget
+from libqtile import bar, layout, qtile, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 
@@ -11,102 +10,60 @@ from libqtile.lazy import lazy
 home_path=path.expanduser("~")
 config_path=path.join(home_path, ".config")
 qtile_config_path=path.join(config_path, "qtile")
+scripts_path=path.join(config_path, "scripts")
 autostart_path=path.join(qtile_config_path, "autostart.sh")
-
-browser="brave"
-code_editor="code"
-graphic_file_manager="thunar"
-terminal = "kitty"
-terminal_file_manager="kitty ranger"
-
 
 Super = "mod4"
 alt = "mod1"
-enter = "Return"
 theme_path=path.join(qtile_config_path, "theme.json")
 
-with open(theme_path,"r",encoding="utf-8") as theme_file:
-    theme_config=json.load(theme_file)
-#index=str(random.randint(1, 43))
-keys = [
-    # vim mode
-    # navegación entre ventanas
-    Key([Super], "h", lazy.layout.left(), desc="Move focus to left"),
-    Key([Super], "l", lazy.layout.right(), desc="Move focus to right"),
-    Key([Super], "j", lazy.layout.down(), desc="Move focus down"),
-    Key([Super], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([alt], "Tab", lazy.layout.next(), desc="Move Super focus to other Super"),
-    # mover las ventanas
-    Key([Super, "shift"], "h", lazy.layout.shuffle_left(), desc="Move Super to the left"),
-    Key([Super, "shift"], "l", lazy.layout.shuffle_right(), desc="Move Super to the right"),
-    Key([Super, "shift"], "j", lazy.layout.shuffle_down(), desc="Move Super down"),
-    Key([Super, "shift"], "k", lazy.layout.shuffle_up(), desc="Move Super up"),
-    # control de tamaño de ventanas
-    Key([Super, "control"], "h", lazy.layout.grow_left(), desc="Grow Super to the left"),
-    Key([Super, "control"], "l", lazy.layout.grow_right(), desc="Grow Super to the right"),
-    Key([Super, "control"], "j", lazy.layout.grow_down(), desc="Grow Super down"),
-    Key([Super, "control"], "k", lazy.layout.grow_up(), desc="Grow Super up"),
-    Key([Super], "n", lazy.layout.normalize(), desc="Reset all Super sizes"),
+vim_mode = {"on":["l", "h", "j", "k"], "off":["right", "left", "down", "up"]}
+
+keys=[Key(key[0],key[1],*key[2:]) for key in [
+    # Navegacion entre ventanas
+    ([Super], vim_mode["off"][0], lazy.layout.right()),
+    ([Super], vim_mode["off"][1], lazy.layout.left()),
+    ([Super], vim_mode["off"][2], lazy.layout.down()),
+    ([Super], vim_mode["off"][3], lazy.layout.up()),
+    # Intercambio de ventanas
+    ([Super, "shift"], vim_mode["off"][0], lazy.layout.shuffle_right()),
+    ([Super, "shift"], vim_mode["off"][1], lazy.layout.shuffle_left()),
+    ([Super, "shift"], vim_mode["off"][2], lazy.layout.shuffle_down()),
+    ([Super, "shift"], vim_mode["off"][3], lazy.layout.shuffle_up()),
+    # Tamaño de ventanas
+    ([Super, "control"], vim_mode["off"][0], lazy.layout.grow_right()),
+    ([Super, "control"], vim_mode["off"][1], lazy.layout.grow_left()),
+    ([Super, "control"], vim_mode["off"][2], lazy.layout.grow_down()),
+    ([Super, "control"], vim_mode["off"][3], lazy.layout.grow_up()),
+    # Manejo de ventanas
+    ([alt], "F4", lazy.window.kill()),
+    ([alt], "q", lazy.window.kill()),
+    ([alt], "tab", lazy.layout.next()),   
+    ([alt, "shift"], "tab", lazy.layout.prev()),   
+    ([alt, "control"], "delete", lazy.shutdown()),
+
+    ([Super, "control"], "r", lazy.reload_config()),
+    ([Super], "tab", lazy.next_layout()),
+    ([Super,"shift"], "tab", lazy.prev_layout()),
     
-    # arrow mode
-    # navegación entre ventanas
-    Key([Super], "left", lazy.layout.left(), desc="Move focus to left"),
-    Key([Super], "right", lazy.layout.right(), desc="Move focus to right"),
-    Key([Super], "down", lazy.layout.down(), desc="Move focus down"),
-    Key([Super], "up", lazy.layout.up(), desc="Move focus up"),
-    Key([alt], "Tab", lazy.layout.next(), desc="Move Super focus to other Super"),
-    # mover las ventanas
-    Key([Super, "shift"], "left", lazy.layout.shuffle_left(), desc="Move Super to the left"),
-    Key([Super, "shift"], "right", lazy.layout.shuffle_right(), desc="Move Super to the right"),
-    Key([Super, "shift"], "down", lazy.layout.shuffle_down(), desc="Move Super down"),
-    Key([Super, "shift"], "up", lazy.layout.shuffle_up(), desc="Move Super up"),
-    # control de tamaño de ventanas
-    Key([Super, "control"], "left", lazy.layout.grow_left(), desc="Grow Super to the left"),
-    Key([Super, "control"], "right", lazy.layout.grow_right(), desc="Grow Super to the right"),
-    Key([Super, "control"], "down", lazy.layout.grow_down(), desc="Grow Super down"),
-    Key([Super, "control"], "up", lazy.layout.grow_up(), desc="Grow Super up"),
-    
-    Key([Super, "control"], "t", lazy.window.toggle_floating(), desc="Grow Super up"),
-    Key([Super, "control"], "f", lazy.window.toggle_fullscreen(), desc="Grow Super up"),
-    Key([Super], "n", lazy.layout.normalize(), desc="Reset all Super sizes"),
+    ([Super], "r", lazy.spawncmd()),
+    ([Super], "b", lazy.spawn("brave")),
+    ([Super], "c", lazy.spawn("code")),
+    ([Super], "e", lazy.spawn("thunar")),
+    ([Super], "Return", lazy.spawn("kitty")),      
 
-    Key(
-        [Super, "shift"],
-        enter,
-       lazy.layout.toggle_split(),
-        desc="Toggle between split and unsplit sides of stack",
-    ),
+    ([], "XF86AudioRaiseVolume", lazy.spawn("sh "+scripts_path+"/volume/volctl.sh +"),),
+    ([], "XF86AudioLowerVolume", lazy.spawn("sh "+scripts_path+"/volume/volctl.sh -"),),      
+    ([], "XF86AudioPlay", lazy.spawn("playerctl play-pause"),),
+    ([], "XF86AudioPause", lazy.spawn("playerctl play-pause"),),
+    ([], "XF86AudioNext", lazy.spawn("playerctl next"),),
+    ([], "XF86AudioPrev", lazy.spawn("playerctl previous"),),
 
-    # QTILE WM
-    Key([Super], enter, lazy.spawn(terminal), desc="Launch terminal"),
-    Key([alt], "F4", lazy.window.kill(), desc="Kill focused window"),
-    Key([alt], "q", lazy.window.kill(), desc="Kill focused window"),
-    Key([Super, "control"], "r", lazy.reload_config(), desc="Reload the config"),
-    Key([Super], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([Super,"shift"], "Tab", lazy.prev_layout(), desc="Toggle between layouts"),
-    Key([Super], "end", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([Super], "home", lazy.prev_layout(), desc="Toggle between layouts"),
-    Key([alt, "control"], "delete", lazy.spawn("bash /home/eduardo/.config/qtile/scripts/logout.sh"), desc="Shutdown Qtile"),
+    ([Super], "p", lazy.spawn("playerctl play-pause"),),
+    ([Super], "o", lazy.spawn("playerctl next"),),
+    ([Super], "u", lazy.spawn("playerctl previous"),),
+]]
 
-    #aplicaciones
-    Key([Super], "r", lazy.spawn("bash /home/eduardo/.config/qtile/scripts/apps.sh"),),
-    Key([Super], "b", lazy.spawn(browser),),
-    Key([Super], "c", lazy.spawn(code_editor),),
-    Key([Super], "e", lazy.spawn(graphic_file_manager), ),
-
-    #controles
-    Key([], "XF86AudioMute", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle"),),
-    Key([Super], "Print", lazy.spawn("bash /home/eduardo/.config/qtile/scripts/screenshoter.sh"),),
-    Key([], "Print", lazy.spawn("scrot -s"),),
-    Key([], "XF86AudioRaiseVolume", lazy.spawn("bash /home/eduardo/.config/qtile/scripts/volctl.sh +"),),
-    Key([], "XF86AudioLowerVolume", lazy.spawn("bash /home/eduardo/.config/qtile/scripts/volctl.sh -"),),
-    #Key([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl set 10%+"),),
-    #Key([], "XF86MonBrightnessDown", lazy.spawn("brightnessctl set 10%-"),),
-    Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause"),),
-    Key([], "XF86AudioPause", lazy.spawn("playerctl play-pause"),),
-    Key([], "XF86AudioNext", lazy.spawn("playerctl next"),),
-    Key([], "XF86AudioPrev", lazy.spawn("playerctl previous"),),
-]
 # listado de iconos
 # 1.- nf-md-arch
 # 2.- nf-oct-terminal
@@ -129,7 +86,11 @@ for i, group in enumerate(groups):
             ),
         ]
     )
-    layout_style={"margin": 3,"border_normal":theme_config["color_29"],"border_focus": theme_config["color_17"], "border_width": 2}
+
+with open(theme_path,"r",encoding="utf-8") as theme_file:
+    theme_config=json.load(theme_file)
+
+layout_style={"margin": 3,"border_normal":theme_config["color_29"],"border_focus": theme_config["color_17"], "border_width": 2}
 
 layouts = [
    layout.Columns(**layout_style),
@@ -154,10 +115,8 @@ widget_defaults = dict(
 
 extension_defaults = widget_defaults.copy()
 
-#nf-cod-triangle_left
-powerline={"text":"","fontsize":40,"padding":-5.5}
-
-powerline_end={"text":"","fontsize":40,"padding":-5.5}
+powerline_spawn={"text":"","fontsize":40,"padding":-5.5}
+powerline={"text":"","fontsize":40,"padding":-5.5}
 
 screens = [
     Screen(
@@ -168,23 +127,20 @@ screens = [
                     disable_drag=True,
                     active=theme_config["color_40"],
                     fontsize=12,
-                    highlight_method='text',
+                    highlight_method="text",
                     this_current_screen_border=theme_config["color_17"],
-                    background=theme_config["color_2"]
-                #foreground=theme_config["color_"+str(index[5])],
                 ),
-                
                 widget.Prompt(
-                    foreground = theme_config["color_1"],
+                    foreground = theme_config["color_43"],
                     background = theme_config["color_10"] ,
                     ignore_dump_history =True,
                     record_history=False
                 ),
+                widget.TextBox(**powerline_spawn, foreground=theme_config["color_14"],),                 
                 
                 widget.WindowName(
                     foreground=theme_config["color_16"]
                 ),
-                
                 widget.Chord(
                     chords_colors={
                         "launch": ("#9c9c9c", "#9c9c9c"),
@@ -194,41 +150,38 @@ screens = [
 
                 widget.TextBox(**powerline, foreground=theme_config["color_23"],), 
                 widget.CPU(
-                    background=theme_config["color_23"],
-                    foreground=theme_config["color_43"],
+                    foreground=theme_config["color_23"],                    
                 ),
 
-                widget.TextBox(**powerline,foreground=theme_config["color_6"]),
+                widget.TextBox(**powerline,foreground=theme_config["color_6"],),
                 widget.Memory(
-                    background=theme_config["color_6"],
-                    foreground=theme_config["color_36"],
+                    foreground=theme_config["color_6"],
                 ),
                 
-                widget.TextBox(
-                    **powerline, foreground=theme_config["color_28"],
-                ),
+                widget.TextBox(**powerline, foreground=theme_config["color_20"],),
                 widget.Clock(
                     format="%a %d/%m/%Y %I:%M %p",
-                    background=theme_config["color_28"],
-                    foreground=theme_config["color_13"],
+                    foreground=theme_config["color_20"],
                 ),
-                widget.TextBox(
-                    **powerline, foreground=theme_config["color_17"],
-                ),
-                
+            
+                widget.TextBox(**powerline, foreground=theme_config["color_17"],),
                 widget.CurrentLayout(
                     mode='both', icon_first=True,
-                    background=theme_config["color_17"],
-                    foreground=theme_config["color_25"],
+                    foreground=theme_config["color_17"],
                 ),
+            
+                widget.TextBox(**powerline, foreground=theme_config["color_10"],),
+                widget.Battery(foreground=theme_config["color_10"], 
+                            discharge_char="󱟥", 
+                            charge_char="󰂏",
+                            format='{char} {percent:2.0%}'),
                 
                 widget.TextBox(
                     **powerline,foreground=theme_config["color_1"],
                 ),
-                widget.Systray(
-                    background = theme_config["color_1"],
-                ),
-                widget.TextBox(**powerline_end,
+                widget.Systray(),
+                
+                widget.TextBox(**powerline,
                                foreground=theme_config["color_13"]),
                 widget.TextBox("Theme: "+theme_config["theme"], 
                                foreground=theme_config["color_13"])
