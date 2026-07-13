@@ -19,6 +19,9 @@ theme_path=path.join(qtile_config_path, "theme.json")
 
 vim_mode = {"on":["l", "h", "j", "k"], "off":["right", "left", "down", "up"]}
 
+with open(theme_path,"r",encoding="utf-8") as theme_file:
+    theme_config=json.load(theme_file)
+#➜  ~ sh .config/dmenu/screenshoter.sh '#ff8f40' '#10141c' '#ffffff' '#000000'
 keys=[Key(key[0],key[1],*key[2:]) for key in [
     # Navegacion entre ventanas
     ([Super], vim_mode["off"][0], lazy.layout.right()),
@@ -36,34 +39,42 @@ keys=[Key(key[0],key[1],*key[2:]) for key in [
     ([Super, "control"], vim_mode["off"][2], lazy.layout.grow_down()),
     ([Super, "control"], vim_mode["off"][3], lazy.layout.grow_up()),
     # Manejo de ventanas
-    ([alt], "F4", lazy.window.kill()),
-    ([alt], "q", lazy.window.kill()),
-    ([alt], "tab", lazy.layout.next()),   
-    ([alt, "shift"], "tab", lazy.layout.prev()),   
-    ([alt, "control"], "delete", lazy.shutdown()),
-
+    ([alt], "F4", lazy.window.kill()), #cerrar
+    ([alt], "q", lazy.window.kill()), #cerrar
+    ([alt], "tab", lazy.layout.next()), #cambio de foco   
+    ([alt, "shift"], "tab", lazy.layout.prev()), #cambio de foco
     ([Super, "control"], "r", lazy.reload_config()),
-    ([Super], "tab", lazy.next_layout()),
-    ([Super,"shift"], "tab", lazy.prev_layout()),
-    
-    ([Super], "r", lazy.spawncmd()),
+    ([Super], "tab", lazy.next_layout()), #cambio de distribucion
+    ([Super,"shift"], "tab", lazy.prev_layout()),#cambio de distribucion
+    #menus
+    ([Super], "r", lazy.spawn("sh " +config_path + "/dmenu/apps.sh '"                   + theme_config["color_13"][0]+"' '" + theme_config["color_24"][0]+"' '"+ theme_config["color_40"][0] +"' '"+ theme_config["color_43"][0] +"'")),
+    ([Super], "p", lazy.spawn("sh " +config_path + "/dmenu/monitor-manager.sh '"        + theme_config["color_13"][0]+"' '" + theme_config["color_24"][0]+"' '"+ theme_config["color_40"][0] +"' '"+ theme_config["color_43"][0] +"'")),
+    ([alt, "control"], "delete", lazy.spawn("sh " +config_path + "/dmenu/logout.sh '"   + theme_config["color_13"][0]+"' '" + theme_config["color_24"][0]+"' '"+ theme_config["color_40"][0] +"' '"+ theme_config["color_43"][0] +"' qtile")),
+    ([Super], "Print", lazy.spawn("sh " +config_path + "dmenu/screenshoter.sh '"        + theme_config["color_13"][0]+"' '" + theme_config["color_24"][0]+"' '"+ theme_config["color_40"][0] +"' '"+ theme_config["color_43"][0] +"'")),
+    ([], "Print", lazy.spawn("sh " +config_path + "/dmenu/screenshoter.sh '"            + theme_config["color_13"][0]+"' '" + theme_config["color_24"][0]+"' '"+ theme_config["color_40"][0] +"' '"+ theme_config["color_43"][0] +"'")),
+    #aplicaciones 
     ([Super], "b", lazy.spawn("brave")),
     ([Super], "c", lazy.spawn("code")),
     ([Super], "e", lazy.spawn("thunar")),
     ([Super], "Return", lazy.spawn("kitty")),      
-
+    #control de volumen de audio
     ([], "XF86AudioRaiseVolume", lazy.spawn("sh "+scripts_path+"/volume/volctl.sh +"),),
     ([], "XF86AudioLowerVolume", lazy.spawn("sh "+scripts_path+"/volume/volctl.sh -"),),      
+    ([], "XF86AudioMute", lazy.spawn("sh "+scripts_path+"/volume/volctl.sh +-"),),
+    #control de brillo
+    ([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl set +10%"),),
+    ([], "XF86MonBrightnessDown", lazy.spawn(" brightnessctl set 10%-"),),
+    #control de audio
     ([], "XF86AudioPlay", lazy.spawn("playerctl play-pause"),),
     ([], "XF86AudioPause", lazy.spawn("playerctl play-pause"),),
     ([], "XF86AudioNext", lazy.spawn("playerctl next"),),
     ([], "XF86AudioPrev", lazy.spawn("playerctl previous"),),
 
-    ([Super], "p", lazy.spawn("playerctl play-pause"),),
+    ([Super], "i", lazy.spawn("playerctl play-pause"),),
     ([Super], "o", lazy.spawn("playerctl next"),),
     ([Super], "u", lazy.spawn("playerctl previous"),),
 ]]
-
+# espacios de trabajo
 # listado de iconos
 # 1.- nf-md-arch
 # 2.- nf-oct-terminal
@@ -86,10 +97,7 @@ for i, group in enumerate(groups):
             ),
         ]
     )
-
-with open(theme_path,"r",encoding="utf-8") as theme_file:
-    theme_config=json.load(theme_file)
-
+#distribuciones de ventanas
 layout_style={"margin": 3,"border_normal":theme_config["color_29"],"border_focus": theme_config["color_17"], "border_width": 2}
 
 layouts = [
@@ -107,6 +115,7 @@ layouts = [
     # layout.Zoomy(),
 ]
 
+#barra de estado
 widget_defaults = dict(
     font="Hack Nerd Font Mono",
     fontsize=10,
@@ -183,8 +192,9 @@ screens = [
                 
                 widget.TextBox(**powerline,
                                foreground=theme_config["color_13"]),
-                widget.TextBox("Theme: "+theme_config["theme"], 
-                               foreground=theme_config["color_13"])
+                widget.TextBox("Theme: "+theme_config["theme"],
+                               foreground=theme_config["color_13"]),
+#                widget.TextBox("sh " +config_path + "/dmenu/logout.sh '"+ theme_config["color_13"][0]+"' '" + theme_config["color_24"][0]+"' '"+ theme_config["color_40"][0] +"' '"+ theme_config["color_24"][0] +"'")
             # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
             ],
             20,
@@ -194,7 +204,7 @@ screens = [
     ),
 ]
 
-# Drag floating layouts.
+#modo flotante
 mouse = [
     Drag([Super], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
     Drag([Super], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
@@ -217,14 +227,12 @@ floating_layout = layout.Floating(
         Match(title="pinentry"),  # GPG key password entry
     ]
 )
+
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
-
 auto_minimize = True
-
 wl_input_rules = None
-
 wmname = "qtile"
 
 @hook.subscribe.startup_once

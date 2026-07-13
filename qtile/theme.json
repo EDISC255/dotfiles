@@ -1,10 +1,11 @@
 {
     "theme": "ayu-dark",
+    "//":"fg-systray",
     "color_1": [
         "#ffffff",
         "#ffffff"
     ],
-    "//": "bg-grop-box",
+    "//": "bg-group-box",
     "color_2": [
         "#5a6378",
         "#5a6378"
@@ -21,6 +22,7 @@
         "#765b24",
         "#765b24"
     ],
+    "//":"fg-memory",
     "color_6": [
         "#bfbdb6",
         "#bfbdb6"
@@ -37,6 +39,7 @@
         "#4fbfff",
         "#4fbfff"
     ],
+    "//":"fg-battery",
     "color_10": [
         "#d0a1ff",
         "#d0a1ff"
@@ -53,6 +56,7 @@
         "#fdb04c",
         "#fdb04c"
     ],
+    "//":"",
     "color_14": [
         "#59c2ff",
         "#59c2ff"
@@ -61,10 +65,12 @@
         "#95e6cb",
         "#95e6cb"
     ],
+    "//":"fg-windowname",
     "color_16": [
         "#ff8f40",
         "#ff8f40"
     ],
+    "//":["fg-currentlayout","border_focus"],
     "color_17": [
         "#e6c08a",
         "#e6c08a"
@@ -77,6 +83,7 @@
         "#1b1f29",
         "#1b1f29"
     ],
+    "//":"fg-clock",
     "color_20": [
         "#3388ff",
         "#3388ff"
@@ -89,15 +96,18 @@
         "#475266",
         "#475266"
     ],
+
+    "//":"fg-cpu",
     "color_23": [
         "#deae4d",
         "#deae4d"
     ],
+
+    "//": "bg-bar",
     "color_24": [
         "#10141c",
         "#10141c"
     ],
-    "//": "bg-bar",
     "color_25": [
         "#0d1017",
         "#0d1017"
@@ -114,6 +124,7 @@
         "#433921",
         "#433921"
     ],
+    "//":"border_normal",
     "color_29": [
         "#4c4126",
         "#4c4126"
