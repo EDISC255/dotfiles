@@ -1,0 +1,9 @@
+barrier &
+dunst &
+sh ~/.config/bg.sh &
+indicator-stickynotes &
+picom & 
+setxkbmap latam &
+udiskie -a -t &
+tint2 &
+blueman-applet &

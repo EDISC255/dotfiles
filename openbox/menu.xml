@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openbox_menu xmlns="http://openbox.org/3.4/menu">
+
+<menu id="root-menu" label="Openbox 3">
+  <separator label="APLICACIONES" />
+
+  <item label="Kitty">
+    <action name="Execute">
+      <command>kitty</command>
+    </action>
+  </item>
+
+  <item label="Brave">
+    <action name="Execute">
+      <command>brave</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+        <wmclass>Brave</wmclass>
+      </startupnotify>
+    </action>
+  </item>
+
+  <item label="VS Code">
+    <action name="Execute">
+      <command>code</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+        <wmclass>Code</wmclass>
+      </startupnotify>
+    </action>
+  </item>
+
+  <item label="Netbeans">
+    <action name="Execute">
+      <command>netbeans</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+        <wmclass>Netbeans</wmclass>
+      </startupnotify>
+    </action>
+  </item>
+
+  <item label="Firefox">
+    <action name="Execute">
+      <command>firefox</command>
+      <startupnotify>
+        <enabled>no</enabled>
+        <wmclass>Firefox</wmclass>
+      </startupnotify>
+    </action>
+  </item>
+
+  <item label="Openbox Configuration Manager">
+    <action name="Execute">
+      <command>obconf</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
+
+  <item label="Cerrar openbox">
+    <action name="Exit">
+      <prompt>yes</prompt>
+    </action>
+  </item>
+
+<item label="Recargar OB">
+  <action name="Reconfigure"/>
+</item>
+</menu>
+
+
+</openbox_menu>
