@@ -35,9 +35,9 @@ Archivos de configuracion de mi entorno de escritorio con window managers.
 - picom: compocitor graficos
 - playerctl: control de reproducion multimedia
 - pulseaudio: controlador de audio
-- python-jedi
-- python-psutil
-- python-pynvim
+- python-jedi: autocompletado de python para neovim
+- python-psutil: utilidades de hardware de python para qtile
+- python-pynvim: implementacion de python para neovim deoplete
 - qtile: tiling window manager
 - ranger: explorador de archvos consola
 - scrot: capturador de pantalla (screenshoter)
@@ -48,6 +48,12 @@ Archivos de configuracion de mi entorno de escritorio con window managers.
 - wps-office-bin: paqueteria office
 - xarchiver: visualizador de archivos comprimidos
 - zramswap: swap area basada en ram
+
+## clonado de repositorio
+
+```bash
+git clone https://github.com/edisc255/dotfiles
+```
 
 ## instalacion de las configuraciones
 
@@ -78,7 +84,7 @@ ln -s ~/dotfiles/dunst/ ~/.config/dunst
 ### kitty
 
 ```bash
-ln -s ~/dotfileskitty/ ~/.config/kitty
+ln -s ~/dotfiles/kitty/ ~/.config/kitty
 ```
 
 ### neovim
