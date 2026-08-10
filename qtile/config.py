@@ -10,7 +10,6 @@ from libqtile.lazy import lazy
 home_path=path.expanduser("~")
 config_path=path.join(home_path, ".config")
 qtile_config_path=path.join(config_path, "qtile")
-scripts_path=path.join(config_path, "scripts")
 autostart_path=path.join(qtile_config_path, "autostart.sh")
 
 Super = "mod4"
@@ -58,12 +57,12 @@ keys=[Key(key[0],key[1],*key[2:]) for key in [
     ([Super], "e", lazy.spawn("thunar")),
     ([Super], "Return", lazy.spawn("kitty")),      
     #control de volumen de audio
-    ([], "XF86AudioRaiseVolume", lazy.spawn("sh "+scripts_path+"/volume/volctl.sh +"),),
-    ([], "XF86AudioLowerVolume", lazy.spawn("sh "+scripts_path+"/volume/volctl.sh -"),),      
-    ([], "XF86AudioMute", lazy.spawn("sh "+scripts_path+"/volume/volctl.sh +-"),),
+    ([], "XF86AudioRaiseVolume", lazy.spawn("sh "+config_path+"/volctl.sh +"),),
+    ([], "XF86AudioLowerVolume", lazy.spawn("sh "+config_path+"/volctl.sh -"),),      
+    ([], "XF86AudioMute", lazy.spawn("sh "+config_path+"/volctl.sh +-"),),
     #control de brillo
-    ([], "XF86MonBrightnessUp", lazy.spawn("brightnessctl set +10%"),),
-    ([], "XF86MonBrightnessDown", lazy.spawn(" brightnessctl set 10%-"),),
+    ([], "XF86MonBrightnessUp", lazy.spawn("sh "+config_path+"/brictl.sh +"),),
+    ([], "XF86MonBrightnessDown", lazy.spawn("sh "+config_path+"/brictl.sh -"),),
     #control de audio
     ([], "XF86AudioPlay", lazy.spawn("playerctl play-pause"),),
     ([], "XF86AudioPause", lazy.spawn("playerctl play-pause"),),
