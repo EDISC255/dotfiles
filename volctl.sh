@@ -22,7 +22,11 @@ case "$VOLCTL" in
     fi
  ;;
 "+-" )
+
      pactl set-sink-mute @DEFAULT_SINK@ toggle
+     STATUS=$(pactl get-sink-mute @DEFAULT_SINK@) 
+     dunstify -t 1000 "$STATUS"
+
 ;;
 *) echo  " ";;
 esac 
