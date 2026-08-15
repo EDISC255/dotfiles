@@ -60,41 +60,41 @@ git clone https://github.com/edisc255/dotfiles
 ### qtile_wm
 
 ```bash
-ln -s ~/dotfiles/qtile/ ~/.config/qtile
+ln -s ~/dotfiles/qtile/ ~/.config/
 ```  
 
 ### openbox_wm
 
 ```bash
-ln -s ~/dotfiles/openbox/ ~/.config/openbox
+ln -s ~/dotfiles/openbox/ ~/.config/
 ```
 
 ### dmenu
 
 ```bash
-ln -s ~/dotfiles/dmenu/ ~/.config/dmenu
+ln -s ~/dotfiles/dmenu/ ~/.config/
 ```
 
 ### dunst
 
 ```bash
-ln -s ~/dotfiles/dunst/ ~/.config/dunst
+ln -s ~/dotfiles/dunst/ ~/.config/
 ```
 
 ### kitty
 
 ```bash
-ln -s ~/dotfiles/kitty/ ~/.config/kitty
+ln -s ~/dotfiles/kitty/ ~/.config/
 ```
 
 ### neovim
 
 ```bash
-ln -s ~/dotfiles/nvim/ ~/.config/nvim
+ln -s ~/dotfiles/nvim/ ~/.config/
 ```
 
 ### tint2
 
 ```bash
-ln -s ~/dotfiles/tint2/ ~/.config/tint2
+ln -s ~/dotfiles/tint2/ ~/.config/
 ```
