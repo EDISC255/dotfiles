@@ -152,12 +152,17 @@ Cpu=[
 
 FechaHora=[
     widget.TextBox(**powerline, foreground=theme_config["color_3"],),
-    widget.TextBox(text="",fontsize=25,padding=1, foreground=theme_config["color_3"],mouse_callbacks={"Button1": lazy.spawn("sh " +config_path + "/dmenu/calendar.sh '"                   + theme_config["color_13"][0]+"' '" + theme_config["color_24"][0]+"' '"+ theme_config["color_40"][0] +"' '"+ theme_config["color_43"][0] +"'")}),
+    widget.TextBox(text="",fontsize=25,padding=1, foreground=theme_config["color_3"],mouse_callbacks={"Button1": lazy.spawn("sh " +config_path + "/dmenu/calendar.sh '"+ theme_config["color_13"][0]+"' '" + theme_config["color_24"][0]+"' '"+ theme_config["color_40"][0] +"' '"+ theme_config["color_43"][0] +"'")}),
     widget.Clock(format="%a %d/%m/%Y",  foreground=theme_config["color_3"],),
     
     widget.TextBox(**powerline, foreground=theme_config["color_32"],),
     widget.TextBox(text="󰥔",fontsize=25,padding=1, foreground=theme_config["color_32"]),
     widget.Clock(format="%I:%M %p",foreground=theme_config["color_32"],),]
+
+Red=[widget.TextBox(text="",fontsize=25,padding=1, foreground=theme_config["color_1"],),
+    widget.Net(foreground= theme_config["color_1"], format='{down:.0f}{down_suffix} ↓↑ {up:.0f}{up_suffix}', interface="wlan0"),
+    widget.TextBox(text="󰈀",fontsize=25,padding=1, foreground=theme_config["color_1"],),
+    widget.Net(foreground= theme_config["color_1"], format='{down:.0f}{down_suffix} ↓↑ {up:.0f}{up_suffix}', interface="eth0" ), ]
 
 screens = [
     Screen(
@@ -189,6 +194,8 @@ screens = [
                     },
                     name_transform=lambda name: name.upper(),
                 ),
+                widget.TextBox(**powerline, foreground=theme_config["color_1"]),
+                widget.WidgetBox(widgets=Red, text_closed="RED", text_open="[X]",foreground=theme_config["color_1"]),
 
                 widget.TextBox(**powerline, foreground=theme_config["color_11"]),
                 widget.WidgetBox(widgets=Memoria, text_closed="RAM", text_open="[X]",foreground=theme_config["color_11"]),
