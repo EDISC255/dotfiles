@@ -5,7 +5,10 @@ from libqtile import hook
 from libqtile import bar, layout, qtile, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
+import psutil
 
+interfaces=psutil.net_if_stats()
+nombres=list(interfaces.keys())
 
 home_path=path.expanduser("~")
 config_path=path.join(home_path, ".config")
@@ -58,7 +61,7 @@ keys=[Key(key[0],key[1],*key[2:]) for key in [
     ([Super], "Return", lazy.spawn("kitty")),
     #control de volumen de audio
     ([], "XF86AudioRaiseVolume", lazy.spawn("sh "+config_path+"/volctl.sh +"),),
-    ([], "XF86AudioLowerVolume", lazy.spawn("sh "+config_path+"/volctl.sh -"),),      
+    ([], "XF86AudioLowerVolume", lazy.spawn("sh "+config_path+"/volctl.sh -"),),
     ([], "XF86AudioMute", lazy.spawn("sh "+config_path+"/volctl.sh +-"),),
     #control de brillo
     ([], "XF86MonBrightnessUp", lazy.spawn("sh "+config_path+"/brictl.sh +"),),
@@ -132,11 +135,19 @@ powerline={"text":"","fontsize":40,"padding":-5.5}
 #nf-md-cpu_64_bit
 #nf-fa-thermometer
 
+Red=[
+    widget.TextBox(**powerline, foreground=theme_config["color_1"]),
+    widget.TextBox(text="",fontsize=25,padding=1, foreground=theme_config["color_1"],),
+    widget.Net(foreground= theme_config["color_1"], format='{down:.0f}{down_suffix} ↓↑ {up:.0f}{up_suffix}', interface=nombres[2]),
+    widget.TextBox(**powerline, foreground=theme_config["color_1"]),
+    widget.TextBox(text="󰈀",fontsize=25,padding=1, foreground=theme_config["color_1"],),
+    widget.Net(foreground= theme_config["color_1"], format='{down:.0f}{down_suffix} ↓↑ {up:.0f}{up_suffix}', interface=nombres[1] ), ]
+
 Memoria=[
     widget.TextBox(**powerline, foreground=theme_config["color_8"]),
     widget.TextBox(text="",fontsize=25,padding=1, foreground=theme_config["color_8"]),
     widget.Memory(format='{MemUsed:.0f}{mm}',update_interval=2.0, foreground=theme_config["color_8"]), 
-    
+
     widget.TextBox(**powerline, foreground=theme_config["color_9"]),
     widget.TextBox(text="󰿡",fontsize=25,padding=1, foreground=theme_config["color_9"]),
     widget.Memory(format='{SwapUsed:.0f}{ms}',update_interval=2.0, foreground=theme_config["color_9"])]
@@ -154,15 +165,22 @@ FechaHora=[
     widget.TextBox(**powerline, foreground=theme_config["color_3"],),
     widget.TextBox(text="",fontsize=25,padding=1, foreground=theme_config["color_3"],mouse_callbacks={"Button1": lazy.spawn("sh " +config_path + "/dmenu/calendar.sh '"+ theme_config["color_13"][0]+"' '" + theme_config["color_24"][0]+"' '"+ theme_config["color_40"][0] +"' '"+ theme_config["color_43"][0] +"'")}),
     widget.Clock(format="%a %d/%m/%Y",  foreground=theme_config["color_3"],),
-    
+
     widget.TextBox(**powerline, foreground=theme_config["color_32"],),
     widget.TextBox(text="󰥔",fontsize=25,padding=1, foreground=theme_config["color_32"]),
     widget.Clock(format="%I:%M %p",foreground=theme_config["color_32"],),]
 
-Red=[widget.TextBox(text="",fontsize=25,padding=1, foreground=theme_config["color_1"],),
-    widget.Net(foreground= theme_config["color_1"], format='{down:.0f}{down_suffix} ↓↑ {up:.0f}{up_suffix}', interface="wlan0"),
-    widget.TextBox(text="󰈀",fontsize=25,padding=1, foreground=theme_config["color_1"],),
-    widget.Net(foreground= theme_config["color_1"], format='{down:.0f}{down_suffix} ↓↑ {up:.0f}{up_suffix}', interface="eth0" ), ]
+VolBatBri=[
+    widget.TextBox(**powerline, foreground=theme_config["color_10"],),
+    widget.Battery(foreground=theme_config["color_10"], discharge_char="󱟥", charge_char="󰂏", format='{char} {percent:2.0%}'),
+
+    widget.TextBox(**powerline,foreground=theme_config["color_30"]),
+    widget.TextBox(text="󰃠",fontsize=25,padding=1, foreground=theme_config["color_30"]),
+    widget.Backlight(foreground=theme_config["color_30"]),
+
+    widget.TextBox(**powerline,foreground=theme_config["color_41"]),
+    widget.TextBox(text="󰕾",fontsize=25,padding=1, foreground=theme_config["color_41"]),
+    widget.PulseVolume(foreground=theme_config["color_41"]),]
 
 screens = [
     Screen(
@@ -183,11 +201,10 @@ screens = [
                     record_history=False
                 ),
 
-                widget.TextBox(**powerline_spawn, foreground=theme_config["color_14"],),                 
+                widget.TextBox(**powerline_spawn, foreground=theme_config["color_14"],),
                 widget.WindowName(
                     foreground=theme_config["color_16"]
                 ),
-  
                 widget.Chord(
                     chords_colors={
                         "launch": ("#9c9c9c", "#9c9c9c"),
@@ -201,36 +218,25 @@ screens = [
                 widget.WidgetBox(widgets=Memoria, text_closed="RAM", text_open="[X]",foreground=theme_config["color_11"]),
 
                 widget.TextBox(**powerline, foreground=theme_config["color_18"]),
-                widget.WidgetBox(widgets=Cpu, text_closed="CP0", text_open="[X]", foreground=theme_config["color_18"]),
+                widget.WidgetBox(widgets=Cpu, text_closed="CPU", text_open="[X]", foreground=theme_config["color_18"]),
 
                 widget.TextBox(**powerline, foreground=theme_config["color_21"]),
                 widget.WidgetBox(widgets=FechaHora, text_closed="FECHA", text_open="[X]", foreground=theme_config["color_21"]),
+
+                widget.TextBox(**powerline, foreground=theme_config["color_12"]),
+                widget.WidgetBox(widgets=VolBatBri, text_closed="VBB", text_open="[X]", foreground=theme_config["color_12"]),
 
                 widget.TextBox(**powerline, foreground=theme_config["color_17"],),
                 widget.CurrentLayout(
                     mode='both', icon_first=True,
                     foreground=theme_config["color_17"],
                 ),
-
-                widget.TextBox(**powerline, foreground=theme_config["color_10"],),
-                widget.Battery(foreground=theme_config["color_10"], 
-                            discharge_char="󱟥", 
-                            charge_char="󰂏",
-                            format='{char} {percent:2.0%}'),
-                
-                widget.TextBox(
-                    **powerline,foreground=theme_config["color_1"],
-                ),
-                
+                widget.TextBox(**powerline, foreground=theme_config["color_1"],),
                 widget.Systray(),
-                
                 widget.TextBox(**powerline,
                                foreground=theme_config["color_13"]),
                 widget.TextBox("Theme: "+theme_config["theme"],
                                foreground=theme_config["color_13"]),
-
-#                widget.TextBox("sh " +config_path + "/dmenu/logout.sh '"+ theme_config["color_13"][0]+"' '" + theme_config["color_24"][0]+"' '"+ theme_config["color_40"][0] +"' '"+ theme_config["color_24"][0] +"'")
-            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
             ],
             20,
             background = theme_config["color_24"]
