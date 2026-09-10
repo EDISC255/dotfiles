@@ -1,0 +1,91 @@
+{
+  "theme": "ayu-dark",
+  "border_normal": [
+    "#4c4126",
+    "#4c4126"
+  ],
+  "border_focus": [
+    "#e6c08a",
+    "#e6c08a"
+  ],
+  "bar": [
+    "#10141c",
+    "#10141c"
+  ],
+  "w_s_active": [
+    "#c7c7c7",
+    "#c7c7c7"
+  ],
+  "w_s_inactive": [
+    "#59c2ff",
+    "#59c2ff"
+  ],
+  "w_s_with_process": [
+    "#e6c08a",
+    "#e6c08a"
+  ],
+  "network": [
+    "#ffffff",
+    "#ffffff"
+  ],
+  "ethernet": [
+    "#ffffff",
+    "#ffffff"
+  ],
+  "wifi": [
+    "#ffffff",
+    "#ffffff"
+  ],
+  "memory": [
+    "#93e2c8",
+    "#93e2c8"
+  ],
+  "ram": [
+    "#70bf56",
+    "#70bf56"
+  ],
+  "swap": [
+    "#4fbfff",
+    "#4fbfff"
+  ],
+  "cpu": [
+    "#d0a1ff",
+    "#d0a1ff"
+  ],
+  "use": [
+    "#deae4d",
+    "#deae4d"
+  ],
+  "thermal": [
+    "#765b24",
+    "#765b24"
+  ],
+  "datetime": [
+    "#d95757",
+    "#d95757"
+  ],
+  "date": [
+    "#d95757",
+    "#d95757"
+  ],
+  "time": [
+    "#d95757",
+    "#d95757"
+  ],
+  "vbb": [
+    "#d95757",
+    "#d95757"
+  ],
+  "volume": [
+    "#ffffff",
+    "#ffffff"
+  ],
+  "brillo": [
+    "#ffffff",
+    "#ffffff"
+  ],
+  "batery": [
+    "#d0a1ff",
+    "#d0a1ff"
+  ]
+}
