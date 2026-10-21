@@ -1,0 +1,62 @@
+
+configuration {
+    font: "Hack Nerd Font Mono 10";
+}
+* {
+    bg:          #10141c; 
+    fg:          #ff8f40;
+    border-col:  #304052;
+    selected-bg: #000000;
+    selected-fg: #E9A044;
+}
+window {
+    width: 40%;
+    location: center;
+    background-color: @bg;
+    border: 0px;
+    padding: 0px;
+}
+
+mainbox{
+    background-color: @bg;
+    children: [inputbar, listview];
+    spacing: 4px;
+}
+inputbar{
+    background-color: @bg;
+    text-color: @fg;
+    padding: 4px 6px;
+    children: [prompt];
+}
+prompt{
+    background-color: @bg;
+    text-color: @fg;
+    font: "Hack Nerd Font Mono 10";
+}
+listview{
+    background-color: @bg;
+    columns: 1;
+    lines: 8;
+    spacing: 2px;
+    fixed-height: true;
+    scrollbar: false;
+    padding: 0px;
+}
+element{
+   background-color: @bg;
+   text-color: @fg;
+   padding: 3px 6px;
+   spacing: 0px;
+   border: 0px ;
+}
+element selected{
+   background-color: @selected-bg;
+   text-color: @selected-fg;
+   border: 1px;
+   border-color: @border-col;
+}
+element-text{
+   background-color: inherit;
+   text-color: inherit;
+   vertical-align: 0.5;
+}

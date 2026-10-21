@@ -1,0 +1,59 @@
+configuration {
+    font: "Hack Nerd Font Mono 10";
+}
+* {
+    bg:          #10141c; 
+    fg:          #ff8f40;
+    border-col:  #304052;
+    selected-bg: #000000;
+    selected-fg: #E9A044;
+}
+window{
+    width: 50%;
+    height: 45%;
+    location: center;
+    background-color: @bg;
+    border: 0px;
+    padding: 0px;
+}
+mainbox{
+    background-color: @bg;
+    children: [listview];
+    spacing: 4px;
+}
+listview{
+    background-color: @bg;
+    columns:3;
+    lines:3;
+    flow: horizontal;
+    fixed-columns: true;
+    fixed-height: true;
+    spacing: 5px;
+    scrollbar: false;
+    padding:0px;
+}
+
+element{
+    orientation: vertical;
+    background-color: @bg;
+    text-color: @fg;
+    border: 0px;
+    border-color:@border-col;
+    padding: 0px;
+    spacing: 0px;
+    border: 0px;
+    cursor: pointer;
+}
+
+element selected{
+   background-color: @selected-bg;
+   text-color: @selected-fg;
+   border: 2px;
+   border-color: @border-col;
+}
+element-text{
+   background-color: inherit;
+   text-color: inherit;
+   horizontal-align:0.5;
+   vertical-align: 0.5;
+   }
