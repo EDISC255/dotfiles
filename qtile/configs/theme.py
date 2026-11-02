@@ -1,6 +1,7 @@
 from os import path
 import json
 from .flags import qtile_config_path
+# esquema de colores 
 def theme():
     theme_path=path.join(qtile_config_path, "theme.json")
     with open(theme_path,"r",encoding="utf-8") as theme_file:

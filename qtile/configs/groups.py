@@ -3,6 +3,7 @@ from libqtile.lazy import lazy
 from .keymaps import Super, keys
 
 # espacios de trabajo
+
 # listado de iconos
 # 1.- nf-md-arch
 # 2.- nf-oct-terminal
