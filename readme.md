@@ -16,7 +16,7 @@ Archivos de configuracion de mi entorno de escritorio con window managers.
 
 - barrier: compartir entradas de mouse y teclado con otras pcs
 - bat: cat con enbellesedor
-- blueman: manejadir de bluetooth
+- blueman: manejador de bluetooth
 - brave-bin(aur)
 - brightnessctl: control de brillo (laptop)
 - dmenu (compilado; center_patch;): menu
@@ -33,7 +33,9 @@ Archivos de configuracion de mi entorno de escritorio con window managers.
 - openbox: flowting window manager
 - pdfarranger: visualizador de pdfs
 - picom: compocitor graficos
+- plank: dock de aplicaciones
 - playerctl: control de reproducion multimedia
+- polybar: barra de estado
 - pulseaudio: controlador de audio
 - python-jedi: autocompletado de python para neovim
 - python-psutil: utilidades de hardware de python para qtile
@@ -42,7 +44,6 @@ Archivos de configuracion de mi entorno de escritorio con window managers.
 - ranger: explorador de archvos consola
 - scrot: capturador de pantalla (screenshoter)
 - thunar: explorador de archvos grafico
-- tint2: barra de tareas
 - udiskie: manejador de conexiones USBs
 - visual-studio-code-bin: editor de codigo grafico
 - wps-office-bin: paqueteria office
